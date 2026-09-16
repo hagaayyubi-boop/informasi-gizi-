@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Informasi Gizi</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#DFF3FF;font-family:Arial,sans-serif;padding:30px 20px;color:#161D6F}
+.container{width:100%;max-width:800px;margin:auto}
+.tanggal{text-align:center;font-size:26px;font-weight:bold;margin-bottom:15px}
+.menu{background:#fff;border-radius:15px;padding:15px 20px;margin-bottom:15px;font-size:18px;line-height:1.5;box-shadow:0 3px 10px rgba(0,0,0,.08)}
+.menu strong{color:#161D6F}
+.keterangan{text-align:center;font-size:16px;line-height:1.5;margin:15px 5px 25px;color:#34495e}
+.tabel-box{border-radius:20px;padding:20px;margin-bottom:25px;box-shadow:0 5px 15px rgba(0,0,0,.10)}
+.kecil{background:#DDF6E3;border:3px solid #AEE1E1}.kecil h2{color:#278443}
+.besar{background:#E1ECFF;border:3px solid #8FB5EE}.besar h2{color:#2867B2}
+h2{text-align:center;margin-bottom:18px;font-size:25px}
+table{width:100%;border-collapse:separate;border-spacing:0 7px;font-size:18px}
+th{padding:12px;text-align:left;color:white}
+.kecil th{background:#6FCF97}.besar th{background:#4D8FE7}
+th:first-child{border-radius:8px 0 0 8px}th:last-child{border-radius:0 8px 8px 0;text-align:right}
+td{padding:12px;background:rgba(255,255,255,.85)}
+td:first-child{border-radius:8px 0 0 8px;font-weight:bold}td:last-child{border-radius:0 8px 8px 0;text-align:right;font-weight:bold}
+
+#welcome{position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;padding:25px;background:#DFF3FF}
+.welcome-box{width:100%;max-width:450px;padding:35px 25px;text-align:center;background:#fff;border-radius:25px;box-shadow:0 8px 25px rgba(0,0,0,.12)}
+.welcome-box h1{font-size:30px;margin-bottom:12px}.welcome-box p{color:#34495e;font-size:16px;line-height:1.5;margin-bottom:25px}
+#enterButton{border:0;border-radius:30px;padding:15px 30px;background:#161D6F;color:#fff;font-size:17px;font-weight:bold;cursor:pointer}
+#content{display:none}
+
+@media(max-width:600px){
+body{padding:20px 12px}.tanggal{font-size:22px}.menu{font-size:16px;padding:13px 15px}
+.keterangan{font-size:14px}.tabel-box{padding:15px}h2{font-size:22px}
+table{font-size:15px}th,td{padding:10px}.welcome-box h1{font-size:26px}
+}
+</style>
+</head>
+<body>
+
+<!--
+===============================
+BAGIAN YANG MUDAH DIEDIT
+===============================
+Ganti teks/angka di bawah ini saja.
+Jangan mengubah bagian lain kalau belum perlu.
+-->
+
+<script>
+const DATA = {
+    tanggal: "17/09/2026",
+
+    menu: "Nasi Putih, Tongseng Ayam, Tempe Mendoan, Acar Timun Wortel, Jeruk",
+
+    keterangan: "Informasi nilai gizi berikut menunjukkan kandungan gizi berdasarkan ukuran porsi makanan yang disajikan.",
+
+    porsiKecil: {
+        energi: "477,5 kkal",
+        protein: "8,83 g",
+        lemak: "13,86 g",
+        karbohidrat: "60,1 g",
+        serat: "2,49 g"
+    },
+
+    porsiBesar: {
+        energi: "575 kkal",
+        protein: "10,33 g",
+        lemak: "14,06 g",
+        karbohidrat: "80 g",
+        serat: "2,59 g"
+    }
+};
+</script>
+
+<!-- HALAMAN TAP -->
+<div id="welcome">
+    <div class="welcome-box">
+        <h1>🍊 Informasi Gizi</h1>
+        <p>Tekan tombol di bawah untuk masuk<br>dan memutar musik.</p>
+        <button id="enterButton" onclick="enterWebsite()">🎵 Tap untuk Masuk</button>
+    </div>
+</div>
+
+<!-- LAGU TETAP DIPERTAHANKAN -->
+<audio id="music" loop preload="auto">
+    <source src="ee sakadung kading.mp3" type="audio/mpeg">
+</audio>
+
+<!-- ISI WEBSITE -->
+<div id="content">
+    <div class="container">
+
+        <div class="tanggal" id="tanggal"></div>
+
+        <div class="menu">
+            <strong>Menu:</strong>
+            <span id="menu"></span>
+        </div>
+
+        <div class="keterangan" id="keterangan"></div>
+
+        <div class="tabel-box kecil">
+            <h2>Porsi Kecil</h2>
+            <table>
+                <tr><th>Komponen</th><th>Jumlah</th></tr>
+                <tr><td>Energi</td><td id="kecilEnergi"></td></tr>
+                <tr><td>Protein</td><td id="kecilProtein"></td></tr>
+                <tr><td>Lemak</td><td id="kecilLemak"></td></tr>
+                <tr><td>Karbohidrat</td><td id="kecilKarbohidrat"></td></tr>
+                <tr><td>Serat</td><td id="kecilSerat"></td></tr>
+            </table>
+        </div>
+
+        <div class="tabel-box besar">
+            <h2>Porsi Besar</h2>
+            <table>
+                <tr><th>Komponen</th><th>Jumlah</th></tr>
+                <tr><td>Energi</td><td id="besarEnergi"></td></tr>
+                <tr><td>Protein</td><td id="besarProtein"></td></tr>
+                <tr><td>Lemak</td><td id="besarLemak"></td></tr>
+                <tr><td>Karbohidrat</td><td id="besarKarbohidrat"></td></tr>
+                <tr><td>Serat</td><td id="besarSerat"></td></tr>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+<script>
+function isiData(){
+    document.getElementById("tanggal").textContent = "Tanggal: " + DATA.tanggal;
+    document.getElementById("menu").textContent = DATA.menu;
+    document.getElementById("keterangan").textContent = DATA.keterangan;
+
+    for (const [key, value] of Object.entries(DATA.porsiKecil)) {
+        document.getElementById("kecil" + key.charAt(0).toUpperCase() + key.slice(1)).textContent = value;
+    }
+    for (const [key, value] of Object.entries(DATA.porsiBesar)) {
+        document.getElementById("besar" + key.charAt(0).toUpperCase() + key.slice(1)).textContent = value;
+    }
+}
+
+function enterWebsite(){
+    const music = document.getElementById("music");
+    document.getElementById("content").style.display = "block";
+    document.getElementById("welcome").style.display = "none";
+    music.play().catch(error => console.log("Musik gagal diputar:", error));
+}
+
+isiData();
+</script>
+
+</body>
+</html>
